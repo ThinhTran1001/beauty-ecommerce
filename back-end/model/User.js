@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema({
     skinType: { type: mongoose.Schema.Types.ObjectId, ref: "SkinType" },
     points: { type: Number, default: 0 },
     orderHistory: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
+    role: { type: String, enum: ["USER", "ADMIN"], default: "USER" },
     createdAt: { type: Date, default: Date.now }
 });
 

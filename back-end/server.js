@@ -8,7 +8,6 @@ const productRoutes = require("./routes/product.routes");
 
 const morgan = require("morgan");
 
-const {authMiddleware} = require("./middleware/auth.middleware");
 
 require('dotenv').config();
 
@@ -17,7 +16,7 @@ app.use(cors());
 app.use(morgan("combined"));
 
 app.use('/auth', authRoutes);
-app.use('/products', authMiddleware, productRoutes);
+app.use('/products', productRoutes);
 
 db();
 

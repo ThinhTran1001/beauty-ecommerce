@@ -1,4 +1,4 @@
-const Product = require("../model/Product");
+const Product = require("../model/product.model");
 
 exports.getProducts = async (req, res) => {
     try {
@@ -73,4 +73,37 @@ exports.createProduct = async (req, res) => {
         })
     }
 }
+
+exports.getProductDetail = async (req, res) => {
+    try {
+        const {id} = req.params;
+
+        const product = await Product.findById(id);
+
+        if (!product) {
+            return res.status(404).json({
+                status: 404,
+                message: "Product not found",
+                localDate: new Date(),
+            });
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: "Product retrieved successfully",
+            data: product,
+            localDate: new Date(),
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: "Internal server error",
+            error: error.message,
+            localDate: new Date(),
+        });
+    }
+
+}
+
+
 

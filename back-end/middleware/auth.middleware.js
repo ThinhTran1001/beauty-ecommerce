@@ -3,7 +3,6 @@ require("dotenv").config();
 
 exports.authMiddleware = (req, res, next) => {
     const token = req.header("Authorization").split("Bearer ")[1];
-    console.log(token);
     if (!token) return res.status(401).json(
         {
             status: 401,

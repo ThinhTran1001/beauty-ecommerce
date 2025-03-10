@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
     phoneNumber: { type: String },
     address: { type: String },
+    avatarUrl: { type: String },
     skinType: { type: mongoose.Schema.Types.ObjectId, ref: "SkinType" },
     points: { type: Number, default: 0 },
     orderHistory: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],

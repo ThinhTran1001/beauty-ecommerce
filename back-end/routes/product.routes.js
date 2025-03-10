@@ -6,6 +6,6 @@ const {adminAuthorities} = require("../middleware/auth.middleware")
 const router = express.Router();
 
 router.get("/", getProducts);
-router.post("/", uploadProduct.single("image"),adminAuthorities, createProduct);
+router.post("/",adminAuthorities ,uploadProduct.single("image"), createProduct);
 
 module.exports = router;

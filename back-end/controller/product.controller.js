@@ -16,12 +16,8 @@ exports.getProducts = async (req, res) => {
                 name: product.name,
                 description: product.description,
                 price: product.price,
-                category: product.category,
-                ingredients: product.ingredients,
-                rating: product.rating,
                 stock: product.stock,
                 imageUrl: product.imageUrl,
-                createdAt: product.createdAt
             })),
             message: "Successfully",
             localDate: new Date()

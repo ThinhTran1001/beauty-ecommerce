@@ -4,11 +4,15 @@ const QuestionSchema = new mongoose.Schema({
     text: { type: String, required: true },
     options: [
         {
-            text: { type: String, required: true },
-            score: { type: Number, required: true }
+            text: { type: String, required: true }, // Đáp án
+            scores: {
+                oily: { type: Number, required: true },
+                dry: { type: Number, required: true },
+                combination: { type: Number, required: true },
+                normal: { type: Number, required: true }
+            }
         }
     ],
-    category: { type: String, enum: ["oily", "dry", "combination", "normal"] }
 });
 
 module.exports = mongoose.model("Question", QuestionSchema);

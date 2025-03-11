@@ -13,6 +13,7 @@ exports.getProducts = async (req, res) => {
         res.status(200).json({
             status: 200,
             data: productList.map(product => ({
+                id: product._id,
                 name: product.name,
                 description: product.description,
                 price: product.price,

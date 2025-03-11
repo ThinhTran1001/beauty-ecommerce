@@ -36,7 +36,7 @@ exports.adminAuthorities = (req, res, next) => {
 };
 
 exports.userAuthorities = (req, res, next) => {
-    if (req.user.role !== "User") return res.status(403).json(
+    if (req.user.role !== "USER") return res.status(403).json(
         {
             status: 404,
             message: "You are not authorized to perform this action",

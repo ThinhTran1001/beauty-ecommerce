@@ -102,7 +102,43 @@ exports.getProductDetail = async (req, res) => {
             localDate: new Date(),
         });
     }
+}
 
+exports.updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updateProductRequest = req.body;
+
+        const existedProduct = await Product.findById(id);
+        if(!existedProduct) {
+            res.status(400).json({
+                status: 400,
+                message: "Product not found",
+                localDate: new Date()
+            });
+        }
+
+        if(req.file) {
+            updateProductRequest.image = req.file.path;
+        }
+
+        const updatedProduct = await Product.findByIdAndUpdate(id, updateProductRequest, {
+            new: true,
+            runValidators: true
+        });
+        res.status(201).json({
+            status: 201,
+            message: "Update Product Successfully",
+            localDate: new Date()
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: error.message,
+            localDate: new Date()
+        })
+    }
 }
 
 

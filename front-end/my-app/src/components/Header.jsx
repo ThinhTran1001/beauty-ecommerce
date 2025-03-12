@@ -7,7 +7,7 @@ import {useAuth} from "../context/AuthContext.jsx";
 export const Header = () => {
     const {user, role, logout, loading} = useAuth();
     const navigate = useNavigate();
-
+    console.log(user);
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div className="container">

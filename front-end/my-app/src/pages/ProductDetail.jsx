@@ -77,6 +77,7 @@ const ProductDetail = () => {
                     <h2>{product.name}</h2>
                     <p className="price">{product.price} VND</p>
                     <p className="description">{product.description}</p>
+                    <p className="ingredient">{product.ingredients}</p>
                     <button className="btn btn-primary">Thêm vào giỏ hàng</button>
                 </div>
             </div>

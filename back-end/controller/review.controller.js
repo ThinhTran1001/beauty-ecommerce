@@ -5,7 +5,7 @@ exports.createReview = async (req, res) => {
     try {
         const { productId, rating, comment } = req.body;
         const userId = req.user.userId;
-        console.log(userId);
+
         const existedProduct = await Product.findById(productId);
         if(!existedProduct) {
             res.status(400).json({

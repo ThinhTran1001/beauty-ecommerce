@@ -28,7 +28,7 @@ export const createProduct = async (createProductRequest) => {
 
 export const updateProduct = async (id, updateProductRequest) => {
     try {
-        const res = await axios.put(`${API_URL}/products/${id}`, createProductRequest, {
+        const res = await axios.put(`${API_URL}/products/${id}`, updateProductRequest, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token} `

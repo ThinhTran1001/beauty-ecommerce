@@ -22,7 +22,7 @@ const Login = () => {
             const userRole = decodedToken.role;
 
             if (userRole === "ADMIN") {
-                navigate("/dashboard");
+                navigate("/admin/product");
             } else {
                 navigate("/home");
             }

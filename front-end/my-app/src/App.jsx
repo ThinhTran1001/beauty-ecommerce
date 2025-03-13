@@ -1,14 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Layout from "./pages/Layout.jsx";
-import {useAuth} from "./context/AuthContext.jsx";
+import {AuthProvider, useAuth} from "./context/AuthContext.jsx";
+import {BrowserRouter} from "react-router-dom";
 
 function App() {
-  const {user, role, logout, loading} = useAuth();
-  console.log(user);
-  return (
 
-    <Layout user={user} />
-  );
+    return (
+        <AuthProvider>
+            <BrowserRouter>
+                <Layout/>
+            </BrowserRouter>
+        </AuthProvider>
+
+    );
 }
 
 export default App

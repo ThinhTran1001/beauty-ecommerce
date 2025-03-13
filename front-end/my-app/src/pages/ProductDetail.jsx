@@ -3,6 +3,7 @@ import {data, useParams} from "react-router-dom";
 import "../style/productDetail.css";
 import {getProductDetail} from "../services/ProductService.js";
 import {getReviewsByProductId, createReview} from "../services/ReviewService.js";
+import {addToCart} from "../services/CartService.js";
 
 const ProductDetail = () => {
     const {id} = useParams();
@@ -61,6 +62,16 @@ const ProductDetail = () => {
         setIsSubmitting(false);
     };
 
+    const handleAddToCart = async () => {
+        try {
+            await addToCart(product._id, 1);
+            alert("Added to cart!");
+        } catch (error) {
+            console.error("Error adding to cart:", error);
+        }
+    };
+
+
     if (loading) return <p>Đang tải...</p>;
     if (error) return <p style={{color: "red"}}>{error}</p>;
 
@@ -78,7 +89,7 @@ const ProductDetail = () => {
                     <p className="price">{product.price} VND</p>
                     <p className="description">{product.description}</p>
                     <p className="ingredient">{product.ingredients}</p>
-                    <button className="btn btn-primary">Thêm vào giỏ hàng</button>
+                    <button className="btn btn-primary" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
                 </div>
             </div>
 

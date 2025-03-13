@@ -3,12 +3,15 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 const token = localStorage.getItem("token");
 
-export const getProductList = async () => {
+export const getProductList = async ({ category = "", skinType = "", page = 1, limit = 8 }) => {
     try {
-        const res = await axios.get(`${API_URL}/products`);
+        const res = await axios.get(`${API_URL}/products`, {
+            params: { category, skinType, page, limit }
+        });
         return res.data;
     } catch (error) {
-        console.error(error);
+        console.error("Error fetching products:", error);
+        throw error;
     }
 };
 

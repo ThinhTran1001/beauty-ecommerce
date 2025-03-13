@@ -5,9 +5,13 @@ import "../style/header.css";
 import {useAuth} from "../context/AuthContext.jsx";
 
 export const Header = () => {
-    const {user, role, logout, loading} = useAuth();
-    const navigate = useNavigate();
-    console.log(user);
+    const {user, logoutUser ,loading} = useAuth();
+
+    const handleLogout = async () => {
+        await logoutUser();
+        navigate("/login");
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div className="container">
@@ -28,7 +32,7 @@ export const Header = () => {
                             <Link className="nav-link" to="/products">Sản phẩm</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/skincare">Lộ trình chăm sóc da</Link>
+                            <Link className="nav-link" to="/skincare-result">Lộ trình chăm sóc da</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="/contact">Liên hệ</Link>
@@ -50,14 +54,14 @@ export const Header = () => {
                     {/* Giỏ hàng và Đăng nhập */}
                     <div className="d-flex">
                         <Link to="/cart" className="btn btn-outline-dark me-3">
-                            <FaShoppingCart/> <span className="cart-badge"></span>
+                            <FaShoppingCart/>
                         </Link>
                         {loading ? (
                             <p>Đang tải...</p>
                         ) : user ? (
                             <div className="user-info">
                                 <span>Xin chào, {user.fullName}</span>
-                                <button><FaSignOutAlt/> Đăng xuất</button>
+                                <button onClick={handleLogout} className="btn btn-outline-danger ms-2"><FaSignOutAlt/> Đăng xuất</button>
                             </div>
                         ) : (
                             <Link to="/login"><FaUser/> Đăng nhập</Link>
@@ -69,4 +73,3 @@ export const Header = () => {
     );
 };
 
-export default Header;

@@ -2,36 +2,45 @@ const Product = require("../model/product.model");
 
 exports.getProducts = async (req, res) => {
     try {
-        const productList = await Product.find();
-        if (!productList) {
-            res.status(400).json({
-                status: 400,
-                message: "Product list not found",
-                localDate: new Date(),
-            })
-        }
+        const { category, skinType, page = 1, limit = 10 } = req.query;
+
+        let filter = {};
+        if (category) filter.category = category;
+        if (skinType) filter.skinType = skinType;
+
+        const totalProducts = await Product.countDocuments(filter);
+        const productList = await Product.find(filter).populate("skinType")
+            .skip((page - 1) * limit)
+            .limit(parseInt(limit));
+
         res.status(200).json({
             status: 200,
             data: productList.map(product => ({
                 id: product._id,
                 name: product.name,
-                description: product.description,
                 price: product.price,
                 stock: product.stock,
+                category: product.category,
                 imageUrl: product.imageUrl,
+                skinType: product.skinType
             })),
-            message: "Successfully",
+            pagination: {
+                currentPage: parseInt(page),
+                totalPages: Math.ceil(totalProducts / limit),
+                totalProducts
+            },
+            message: "Successfully retrieved products",
             localDate: new Date()
-        })
+        });
     } catch (error) {
         res.status(500).json({
-                status: 500,
-                message: error.message,
-                localDate: new Date()
-            }
-        );
+            status: 500,
+            message: error.message,
+            localDate: new Date()
+        });
     }
-}
+};
+
 
 exports.createProduct = async (req, res) => {
     try {

@@ -1,7 +1,8 @@
 const Quiz = require("../model/quiz.model");
 const User = require("../model/user.model");
 const Result = require("../model/result.model");
-const SkincareRoutine = require("../model/skincareRoutine.model");
+const SkincareRoutine = require("../model/skincare-routine.model");
+const SkinType = require("../model/skin-type.model");
 
 exports.getQuizWithQuestion = async (req, res) => {
     try {
@@ -71,18 +72,31 @@ exports.submitQuiz = async (req, res) => {
         const scoreMap = {oily: 0, dry: 0, combination: 0, normal: 0};
         answers.forEach((answer) => {
             Object.keys(answer.score).forEach(type => {
-                scoreMap[type] += ans.score[type];
+                scoreMap[type] += answer.score[type];
             });
         });
 
         const skinType = Object.keys(scoreMap).reduce((a, b) => (scoreMap[a] > scoreMap[b] ? a : b));
-        const skincareRoutine = await SkincareRoutine.findOne({skinType});
-        user.skinType = skinType;
-        await user.save();
-
+        console.log(skinType);
+        const skinTypeDoc = await SkinType.findOne({name: skinType});
+        console.log(skinTypeDoc);
+        const skincareRoutine = await SkincareRoutine.findOne({skinType: skinTypeDoc._id});
+        console.log(skincareRoutine);
+        const updatedUser = await User.findOneAndUpdate(
+            { _id: userId },
+            { skinType: skinTypeDoc._id },
+            { new: true, runValidators: true }
+        );
+        if(!updatedUser){
+            res.status(404).json({
+                status: 404,
+                message: "User not found",
+                localDate: new Date(),
+            })
+        }
         const result = new Result(
             {
-                userId: userId,
+                user: user.id,
                 quiz: quizId,
                 skinType,
                 score: scoreMap[skinType],

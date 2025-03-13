@@ -1,8 +1,12 @@
-import { useState} from "react";
-import { useNavigate} from "react-router-dom";
-import { createProduct} from "../../services/ProductService";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {createProduct} from "../../services/ProductService";
+import {getSkinTypeList} from "../../services/SkinTypeService.js";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const AddProductForm = () => {
+    const [skinTypes, setSkinTypes] = useState([]);
     const [product, setProduct] = useState({
         name: "",
         description: "",
@@ -16,13 +20,26 @@ export const AddProductForm = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
+    useEffect(() => {
+
+        const fetchSkinTypes = async () => {
+            try {
+                const res = await getSkinTypeList();
+                setSkinTypes(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchSkinTypes();
+    }, [])
+
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setProduct({ ...product, [name]: value });
+        const {name, value} = e.target;
+        setProduct({...product, [name]: value});
     };
 
     const handleFileChange = (e) => {
-        setProduct({ ...product, image: e.target.files[0] });
+        setProduct({...product, image: e.target.files[0]});
     };
 
     const handleSubmit = async (e) => {
@@ -38,9 +55,11 @@ export const AddProductForm = () => {
 
         try {
             await createProduct(formData);
+            toast.success("Product created successfully.");
             navigate("/admin/products");
         } catch (error) {
             setError(error.message);
+            toast.error(error.message);
         }
     };
 
@@ -50,7 +69,8 @@ export const AddProductForm = () => {
             {error && <p className="text-danger text-center">{error}</p>}
             <form onSubmit={handleSubmit} className="row g-3">
                 <div className="col-md-6">
-                    <input type="text" name="name" value={product.name} onChange={handleChange} placeholder="Product Name" className="form-control" required />
+                    <input type="text" name="name" value={product.name} onChange={handleChange}
+                           placeholder="Product Name" className="form-control" required/>
                 </div>
                 <div className="col-md-6">
                     <select name="category" value={product.category} onChange={handleChange} className="form-control"
@@ -72,19 +92,32 @@ export const AddProductForm = () => {
                            className="form-control" required/>
                 </div>
                 <div className="col-md-6">
-                    <input type="number" name="stock" value={product.stock} onChange={handleChange} placeholder="Stock" className="form-control" required />
+                    <input type="number" name="stock" value={product.stock} onChange={handleChange} placeholder="Stock"
+                           className="form-control" required/>
                 </div>
                 <div className="col-md-6">
-                    <input type="text" name="skinType" value={product.skinType} onChange={handleChange} placeholder="Skin Type" className="form-control" required />
+                    <select name="skinType" value={product.skinType} onChange={handleChange} className="form-control"
+                                required>
+                        <option value="">Select Skin Type</option>
+                        {skinTypes.map((skin) => (
+                            <option key={skin._id} value={skin._id}>
+                                {skin.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="col-md-6">
-                    <input type="text" name="ingredients" value={product.ingredients} onChange={handleChange} placeholder="Ingredients (comma separated)" className="form-control" />
+                    <input type="text" name="ingredients" value={product.ingredients} onChange={handleChange}
+                           placeholder="Ingredients (comma separated)" className="form-control"/>
                 </div>
                 <div className="col-12">
-                    <input type="file" name="image" onChange={handleFileChange} className="form-control" />
+                    <input type="file" name="image" onChange={handleFileChange} className="form-control"/>
                 </div>
                 <div className="col-12 text-center">
-                    <button type="submit" className="btn btn-primary" disabled={!product.name || !product.price || !product.category || !product.stock}>Add Product</button>
+                    <button type="submit" className="btn btn-primary"
+                            disabled={!product.name || !product.price || !product.category || !product.stock}>Add
+                        Product
+                    </button>
                 </div>
             </form>
         </div>

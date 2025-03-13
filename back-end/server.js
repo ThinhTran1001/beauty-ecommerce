@@ -9,6 +9,10 @@ const reviewRoutes = require("./routes/review.routes");
 const userRoutes = require("./routes/user.routes");
 const quizRoutes = require("./routes/quiz.routes");
 const questionRoutes = require("./routes/question.routes");
+const skinTypeRoutes = require("./routes/skin-type.routes");
+const resultRoutes = require("./routes/result.routes");
+const cartRoutes = require("./routes/cart.routes");
+const orderRoutes = require("./routes/order.routes");
 
 const morgan = require("morgan");
 
@@ -24,6 +28,10 @@ app.use('/reviews',reviewRoutes );
 app.use('/users', userRoutes);
 app.use('/quiz', quizRoutes);
 app.use('/questions', questionRoutes);
+app.use('/skin-types', skinTypeRoutes);
+app.use('/result', resultRoutes);
+app.use('/cart', cartRoutes);
+app.use('/order', orderRoutes);
 
 db();
 

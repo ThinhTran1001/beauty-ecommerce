@@ -25,4 +25,8 @@ export const checkoutWithVNPay = async (orderId, amount) => {
 };
 
 export const checkoutWithCOD = async () => {
+    const response = await axios.post(`${API_URL}/order/cod`, {}, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    });
+    return response.data;
 }

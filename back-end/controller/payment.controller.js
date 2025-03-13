@@ -35,7 +35,8 @@ exports.createVNPayPayment = async (req, res) => {
             user: userId,
             products: cart.items,
             totalAmount,
-            status: "Pending"
+            status: "Pending",
+            isPaid: false
         });
         await order.save();
 
@@ -117,7 +118,7 @@ exports.vnpayReturn = async (req, res) => {
         const transactionStatus = vnp_Params["vnp_ResponseCode"];
 
         if (transactionStatus === "00") {
-            await Order.findByIdAndUpdate(orderId, {status: "Processing"});
+            await Order.findByIdAndUpdate(orderId, {status: "Processing", isPaid: true});
             await Payment.findOneAndUpdate({order: orderId}, {status: "Completed"});
             return res.status(200).json({message: "Payment successful"});
         } else {

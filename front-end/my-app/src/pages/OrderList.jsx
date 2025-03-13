@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {getOrderListByUser} from "../services/OrderService.js";
+import {cancelOrder, getOrderListByUser} from "../services/OrderService.js";
 
 const UserOrders = () => {
     const [orders, setOrders] = useState([]);
@@ -19,6 +19,20 @@ const UserOrders = () => {
         };
         fetchOrders();
     }, []);
+
+    const handleCancelOrder = async (orderId) => {
+        try {
+            if (!window.confirm("Bạn có chắc muốn hủy đơn hàng này?")) return;
+
+            const response = await cancelOrder(orderId);
+            alert("Cancel successfully!");
+            setOrders(orders.map((order) =>
+            order._id === orderId ? { ...order, status: "Cancelled" } : order));
+        } catch (error) {
+            alert(error);
+            console.log(error);
+        }
+    }
 
     if (loading) return <p>Đang tải danh sách đơn hàng...</p>;
     if (error) return <p className="text-red-500">{error}</p>;
@@ -47,6 +61,17 @@ const UserOrders = () => {
                                             <p className="font-semibold">{product.name}</p>
                                             <p>Số lượng: {quantity}</p>
                                             <p className="text-green-600">{product.price.toLocaleString()} VND</p>
+                                            <p className={`font-bold ${order.isPaid ? "text-info" : "text-danger"}`}>
+                                                {order.isPaid ? "Đã thanh toán" : "Chưa thanh toán"}
+                                            </p>
+                                            {!order.isPaid && order.status !== "Cancelled" && (
+                                                <button
+                                                    onClick={() => handleCancelOrder(order._id)}
+                                                    className="mt-2 px-4 py-2 bg-red-500 text-black rounded-lg"
+                                                >
+                                                    Hủy đơn hàng
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                 ))}

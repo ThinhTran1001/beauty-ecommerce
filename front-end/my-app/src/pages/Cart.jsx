@@ -40,9 +40,9 @@ const Cart = () => {
                 return;
             }
             const response = await checkoutWithCOD();
-            if (response.success) {
+            if (response.status === 201) {
                 alert("Đơn hàng của bạn đã được đặt thành công! Hãy chuẩn bị nhận hàng.");
-                navigate("/orders"); // Chuyển hướng đến trang đơn hàng
+                navigate("/orders");
             } else {
                 alert("Đặt hàng thất bại. Vui lòng thử lại!");
             }

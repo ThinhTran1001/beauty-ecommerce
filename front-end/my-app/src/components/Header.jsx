@@ -16,7 +16,7 @@ export const Header = () => {
         <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div className="container">
                 {/* Logo */}
-                <Link className="navbar-brand" to="/">
+                <Link className="navbar-brand" to="/home">
                     <h2>BeautyCare</h2>
                 </Link>
 
@@ -35,7 +35,7 @@ export const Header = () => {
                             <Link className="nav-link" to="/skincare-result">Lộ trình chăm sóc da</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/contact">Liên hệ</Link>
+                            <Link className="nav-link" to="/orders">Đơn hàng của tôi</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="/contact">FAQ</Link>

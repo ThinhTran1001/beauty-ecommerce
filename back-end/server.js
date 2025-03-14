@@ -13,6 +13,7 @@ const skinTypeRoutes = require("./routes/skin-type.routes");
 const resultRoutes = require("./routes/result.routes");
 const cartRoutes = require("./routes/cart.routes");
 const orderRoutes = require("./routes/order.routes");
+const skincareRoutineRoutes = require("./routes/skincare-routine.routes");
 
 const morgan = require("morgan");
 
@@ -32,6 +33,7 @@ app.use('/skin-types', skinTypeRoutes);
 app.use('/result', resultRoutes);
 app.use('/cart', cartRoutes);
 app.use('/order', orderRoutes);
+app.use('/skincare-routine', skincareRoutineRoutes);
 
 db();
 

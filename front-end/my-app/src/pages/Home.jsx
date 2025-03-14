@@ -24,16 +24,21 @@ const Home = () => {
     return (
         <div className="home-container">
             <h1>Welcome to BeautyCare</h1>
-            <h1>Làm quiz để xác định da của bạn và xác định lộ trình chăm sóc da</h1>
 
             {hasSkinType ? (
-                <button onClick={() => navigate("/skincare-result")} className="view-routine-btn">
-                    View Skincare Routine
-                </button>
+                <>
+                    <h1>Xem lộ trình chăm sóc da</h1>
+                    <button onClick={() => navigate("/skincare-result")} className="view-routine-btn">
+                        Xem lộ trình chăm sóc da
+                    </button>
+                </>
             ) : (
-                <button onClick={() => navigate("/quiz")} className="start-btn">
-                    Start Quiz
-                </button>
+                <>
+                    <h1>Làm quiz để xác định loại da và đưa ra lộ trình</h1>
+                    <button onClick={() => navigate("/quiz")} className="start-btn">
+                        Bắt đầu quiz
+                    </button>
+                </>
             )}
         </div>
     );

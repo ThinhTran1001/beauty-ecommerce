@@ -39,7 +39,9 @@ const SkincareResult = () => {
 
     return (
         <div className="routine-container mx-auto max-w-3xl p-6 bg-white shadow-lg rounded-lg">
-            <h1 className="text-2xl font-bold text-center mb-4">Your Skin Type: <span className="text-blue-500">{result.skinType}</span></h1>
+            <h1 className="text-2xl font-bold text-center mb-4">
+                Your Skin Type: <span className="text-blue-500">{result.skinType}</span>
+            </h1>
             <h2 className="text-xl font-semibold text-center">Recommended Skincare Routine:</h2>
 
             {result.recommendedRoutine ? (
@@ -49,17 +51,22 @@ const SkincareResult = () => {
                             <h3 className="font-semibold mb-2">Step {step.stepNumber}: {step.description}</h3>
 
                             {step.product ? (
-                                <div className="flex gap-4">
+                                <div
+                                    className="flex gap-4 cursor-pointer hover:bg-gray-100 p-2 rounded-lg"
+                                    onClick={() => navigate(`/products/${step.product._id}`)} // ✅ Chuyển hướng
+                                >
                                     <img
                                         src={step.product.imageUrl}
                                         alt={step.product.name}
                                         className="object-cover rounded-lg shadow d-flex justify-content-center"
-                                        style={{height:'100px', width:'150px' }}
+                                        style={{height:'100px', width:'150px'}}
                                     />
                                     <div>
                                         <h4 className="text-lg font-semibold">{step.product.name}</h4>
                                         <p className="text-sm text-gray-600">{step.product.description}</p>
-                                        <p className="text-md font-semibold text-green-600 mt-2">Price: {step.product.price.toLocaleString()} VND</p>
+                                        <p className="text-md font-semibold text-green-600 mt-2">
+                                            Price: {step.product.price.toLocaleString()} VND
+                                        </p>
                                     </div>
                                 </div>
                             ) : (
@@ -74,7 +81,7 @@ const SkincareResult = () => {
 
             <div className="flex justify-center mt-6">
                 <button
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/home")}
                     className="bg-blue-500 text-white py-2 px-4 rounded-lg text-lg font-semibold hover:bg-blue-600 transition"
                 >
                     Back to Home

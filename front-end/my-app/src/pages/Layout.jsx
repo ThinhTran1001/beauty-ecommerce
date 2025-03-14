@@ -18,6 +18,7 @@ import SkincareResult from "./SkincareResult.jsx";
 import Cart from "./Cart.jsx";
 import OrderList from "./OrderList.jsx";
 import PaymentResult from "./PaymentResult.jsx";
+import SkincareRoutineManagement from "./admin/SkincareRoutineManagement.jsx";
 
 const Layout = () => {
     const {role} = useAuth();
@@ -52,7 +53,16 @@ const Layout = () => {
                                         : <Navigate to="/forbidden" replace />
                             }
                         />
-
+                        <Route
+                            path="/admin/skincare-routine"
+                            element={
+                                role === null
+                                    ? <div>Loading...</div>
+                                    : role === "ADMIN"
+                                        ? <SkincareRoutineManagement />
+                                        : <Navigate to="/forbidden" replace />
+                            }
+                        />
                         {/* Các route không yêu cầu quyền admin */}
                         <Route path="/skincare-result" element={<SkincareResult/>}/>
                         <Route path="/home" element={<Home/>}/>
